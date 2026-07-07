@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로또 번호 추천기</title>
+
+<style>
+:root{
+    --page-bg:#f5f5f5;
+    --panel-bg:#ffffff;
+    --text:#2c3e50;
+    --muted:#4b5f73;
+    --set-bg:#fafafa;
+    --set-border:#ddd;
+    --shadow:rgba(0,0,0,.15);
+    --switch-bg:#95a5a6;
+    --switch-active:#2c3e50;
+    --primary:#3498db;
+    --primary-hover:#217dbb;
+}
+
+:root[data-theme="dark"]{
+    --page-bg:#111827;
+    --panel-bg:#1f2937;
+    --text:#f8fafc;
+    --muted:#cbd5e1;
+    --set-bg:#273449;
+    --set-border:#40516b;
+    --shadow:rgba(0,0,0,.4);
+    --switch-bg:#475569;
+    --switch-active:#0ea5e9;
+    --primary:#0ea5e9;
+    --primary-hover:#0284c7;
+}
+
+body{
+    font-family:'맑은 고딕',sans-serif;
+    background:var(--page-bg);
+    color:var(--text);
+    text-align:center;
+    padding:40px;
+    transition:background .3s,color .3s;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    background:var(--panel-bg);
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 15px var(--shadow);
+    transition:background .3s,box-shadow .3s;
+}
+
+h1{
+    color:var(--text);
+}
+
+p,h3{
+    color:var(--muted);
+}
+
+button{
+    margin:20px;
+    padding:15px 40px;
+    font-size:20px;
+    border:none;
+    border-radius:10px;
+    background:var(--primary);
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:var(--primary-hover);
+}
+
+.top-controls{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin:0 0 10px;
+}
+
+.switch-group{
+    display:flex;
+    gap:8px;
+}
+
+.switch-group button{
+    margin:5px;
+    padding:8px 20px;
+    font-size:14px;
+    background:var(--switch-bg);
+}
+
+.switch-group button.active{
+    background:var(--switch-active);
+}
+
+.set{
+    margin:20px 0;
+    padding:15px;
+    background:var(--set-bg);
+    border-radius:10px;
+    border:1px solid var(--set-border);
+    transition:background .3s,border-color .3s;
+}
+
+.ball{
+    display:inline-flex;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-weight:bold;
+    margin:5px;
+    font-size:18px;
+}
+
+.yellow{background:#f1c40f;}
+.blue{background:#3498db;}
+.red{background:#e74c3c;}
+.gray{background:#7f8c8d;}
+.green{background:#27ae60;}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="top-controls">
+<div class="switch-group">
+<button id="btn-ko" type="button" onclick="setLang('ko')">한국어</button>
+<button id="btn-en" type="button" onclick="setLang('en')">English</button>
+</div>
+<div class="switch-group">
+<button id="btn-light" type="button" onclick="setTheme('light')">라이트 모드</button>
+<button id="btn-dark" type="button" onclick="setTheme('dark')">다크 모드</button>
+</div>
+</div>
+
+<h1 id="title">🎲 로또 번호 추천기</h1>
+
+<p id="desc">버튼을 누르면 번호 5세트가 생성됩니다.</p>
+
+<button onclick="makeLotto()" id="btn-generate">번호 추천받기</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const translations={
+    ko:{
+        title:"🎲 로또 번호 추천기",
+        desc:"버튼을 누르면 번호 5세트가 생성됩니다.",
+        generate:"번호 추천받기",
+        light:"라이트 모드",
+        dark:"다크 모드",
+        setLabel:n=>`${n}번째 추천번호`
+    },
+    en:{
+        title:"🎲 Lotto Number Generator",
+        desc:"Click the button to generate 5 sets of numbers.",
+        generate:"Generate Numbers",
+        light:"Light Mode",
+        dark:"Dark Mode",
+        setLabel:n=>`Set ${n}`
+    }
+};
+
+let currentLang="ko";
+let currentTheme="light";
+
+function setLang(lang){
+
+    currentLang=lang;
+
+    let t=translations[lang];
+
+    document.getElementById("title").textContent=t.title;
+    document.getElementById("desc").textContent=t.desc;
+    document.getElementById("btn-generate").textContent=t.generate;
+    document.getElementById("btn-light").textContent=t.light;
+    document.getElementById("btn-dark").textContent=t.dark;
+
+    document.documentElement.lang=lang;
+
+    document.getElementById("btn-ko").classList.toggle("active",lang==="ko");
+    document.getElementById("btn-en").classList.toggle("active",lang==="en");
+
+    makeLotto();
+}
+
+function setTheme(theme){
+
+    currentTheme=theme;
+
+    document.documentElement.dataset.theme=theme;
+
+    document.getElementById("btn-light").classList.toggle("active",theme==="light");
+    document.getElementById("btn-dark").classList.toggle("active",theme==="dark");
+
+}
+
+function createNumbers(){
+
+    let nums=[];
+
+    while(nums.length<6){
+
+        let n=Math.floor(Math.random()*45)+1;
+
+        if(!nums.includes(n)){
+            nums.push(n);
+        }
+
+    }
+
+    nums.sort((a,b)=>a-b);
+
+    return nums;
+}
+
+function color(num){
+
+    if(num<=10) return "yellow";
+    if(num<=20) return "blue";
+    if(num<=30) return "red";
+    if(num<=40) return "gray";
+    return "green";
+}
+
+function makeLotto(){
+
+    let html="";
+
+    for(let i=1;i<=5;i++){
+
+        let numbers=createNumbers();
+
+        html+=`<div class="set">
+        <h3>${translations[currentLang].setLabel(i)}</h3>`;
+
+        numbers.forEach(n=>{
+
+            html+=`<span class="ball ${color(n)}">${n}</span>`;
+
+        });
+
+        html+="</div>";
+    }
+
+    document.getElementById("result").innerHTML=html;
+
+}
+
+setLang('ko');
+setTheme(currentTheme);
+
+</script>
+
+</body>
+</html>

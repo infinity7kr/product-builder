@@ -1,37 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Generate random lottery numbers from 1 to 45 with duplicate-free draws, copyable results, and light or dark mode.">
-  <title>Lottery Number Generator</title>
+  <meta name="description" content="상황, 투자 가능 시간, 관심 분야를 선택해 나에게 맞는 부업 아이디어를 추천받는 간단한 부업 추천 사이트입니다.">
+  <title>나에게 딱 맞는 부업 찾기</title>
   <style>
     :root {
       color-scheme: light;
-      --bg: #f4f7fb;
+      --bg: #f4f7f6;
       --panel: #ffffff;
-      --panel-soft: #eef4ff;
-      --text: #182230;
+      --panel-soft: #f9fbfa;
+      --text: #1f2933;
       --muted: #667085;
-      --line: #d6e0ef;
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --success: #0f9f6e;
-      --shadow: 0 18px 55px rgba(24, 34, 48, 0.12);
-    }
-
-    body.dark {
-      color-scheme: dark;
-      --bg: #111827;
-      --panel: #1f2937;
-      --panel-soft: #263449;
-      --text: #f8fafc;
-      --muted: #cbd5e1;
-      --line: #334155;
-      --primary: #60a5fa;
-      --primary-dark: #3b82f6;
-      --success: #34d399;
-      --shadow: 0 18px 55px rgba(0, 0, 0, 0.35);
+      --line: #dce5e1;
+      --primary: #4caf50;
+      --primary-dark: #3f9143;
+      --accent: #ecf8ee;
+      --shadow: 0 18px 55px rgba(31, 41, 51, 0.1);
     }
 
     * {
@@ -41,407 +27,274 @@
     body {
       min-height: 100vh;
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 20px;
+      font-family: Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        radial-gradient(circle at top left, rgba(76, 175, 80, 0.18), transparent 32rem),
         var(--bg);
     }
 
     main {
-      width: min(960px, calc(100% - 32px));
+      width: min(100%, 680px);
       margin: 0 auto;
-      padding: 32px 0;
+      padding: 28px 0;
     }
 
-    .app {
+    .container {
       overflow: hidden;
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 12px;
       box-shadow: var(--shadow);
     }
 
     .header {
       display: grid;
-      gap: 18px;
-      padding: 34px;
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(15, 159, 110, 0.08));
+      gap: 10px;
+      padding: 30px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.16), rgba(236, 248, 238, 0.78));
       border-bottom: 1px solid var(--line);
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(2rem, 4vw, 3.1rem);
-      line-height: 1.08;
+      color: #233128;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      line-height: 1.15;
       letter-spacing: 0;
     }
 
     .subtitle {
-      max-width: 620px;
       margin: 0;
       color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.7;
+      font-size: 0.98rem;
+      line-height: 1.65;
     }
 
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
+    .form {
+      display: grid;
+      gap: 20px;
+      padding: 30px;
     }
 
-    button,
-    select {
-      min-height: 44px;
-      border: 1px solid var(--line);
+    .form-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      color: #435044;
+      font-weight: 800;
+    }
+
+    select,
+    button {
+      width: 100%;
+      min-height: 48px;
       border-radius: 8px;
       font: inherit;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 0 14px;
+      color: var(--text);
+      background: #ffffff;
+      border: 1px solid var(--line);
     }
 
     button {
-      padding: 0 18px;
-      color: var(--text);
-      background: var(--panel);
+      margin-top: 4px;
+      color: #ffffff;
+      background: var(--primary);
+      border: 0;
       cursor: pointer;
-      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+      font-weight: 800;
+      transition: background 0.16s ease, transform 0.16s ease;
     }
 
     button:hover {
+      background: var(--primary-dark);
       transform: translateY(-1px);
-      border-color: var(--primary);
     }
 
     button:active {
       transform: translateY(0);
     }
 
-    .primary {
-      color: #ffffff;
-      background: var(--primary);
-      border-color: var(--primary);
-      font-weight: 700;
-    }
-
-    .primary:hover {
-      background: var(--primary-dark);
-    }
-
-    select {
-      padding: 0 40px 0 14px;
-      color: var(--text);
-      background: var(--panel);
-    }
-
-    .body {
-      display: grid;
-      gap: 22px;
-      padding: 28px 34px 34px;
-    }
-
-    .machine {
-      display: grid;
-      gap: 18px;
-      justify-items: center;
-      padding: 28px;
-      background: var(--panel-soft);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
-
-    .draw-display {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      min-height: 62px;
-    }
-
-    .ball {
-      display: inline-grid;
-      width: 52px;
-      height: 52px;
-      place-items: center;
-      border-radius: 999px;
-      color: #ffffff;
-      font-size: 1.1rem;
-      font-weight: 800;
-      box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.14), 0 8px 16px rgba(0, 0, 0, 0.12);
-      animation: pop 0.22s ease both;
-    }
-
-    .ball.pending {
-      color: var(--muted);
-      background: var(--panel);
-      border: 1px dashed var(--line);
-      box-shadow: none;
-      animation: pulse 1s ease-in-out infinite;
-    }
-
-    .yellow { background: #f2b720; }
-    .blue { background: #3b82f6; }
-    .red { background: #ef4444; }
-    .gray { background: #64748b; }
-    .green { background: #10b981; }
-
     .results {
       display: grid;
-      gap: 12px;
-    }
-
-    .game {
-      display: grid;
-      grid-template-columns: 90px 1fr;
       gap: 14px;
-      align-items: center;
-      padding: 16px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
     }
 
-    .game-title {
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .numbers {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .status {
-      min-height: 24px;
-      margin: 0;
-      color: var(--success);
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .empty {
-      padding: 26px;
-      color: var(--muted);
-      text-align: center;
+    .result-card {
+      padding: 18px;
       background: var(--panel-soft);
-      border: 1px dashed var(--line);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--primary);
       border-radius: 8px;
     }
 
-    @keyframes pop {
-      from {
-        transform: translateY(8px) scale(0.85);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
+    .result-title {
+      margin-bottom: 7px;
+      color: #1f2a22;
+      font-size: 1.1rem;
+      font-weight: 900;
+      line-height: 1.45;
     }
 
-    @keyframes pulse {
-      50% {
-        transform: scale(1.05);
-      }
+    .result-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 560px) {
+      body {
+        padding: 10px;
+      }
+
       main {
-        width: min(100% - 18px, 960px);
-        padding: 9px 0;
+        padding: 0;
       }
 
       .header,
-      .body {
+      .form {
         padding: 22px;
-      }
-
-      .topbar,
-      .controls {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      button,
-      select {
-        width: 100%;
-      }
-
-      .game {
-        grid-template-columns: 1fr;
-      }
-
-      .ball {
-        width: 46px;
-        height: 46px;
       }
     }
   </style>
 </head>
 <body>
   <main>
-    <section class="app" aria-labelledby="page-title">
+    <section class="container" aria-labelledby="page-title">
       <header class="header">
-        <div class="topbar">
-          <h1 id="page-title">Lottery Number Generator</h1>
-          <button type="button" id="themeButton" aria-pressed="false">Dark mode</button>
-        </div>
-        <p class="subtitle">Generate six unique numbers from 1 to 45. Choose how many games to create, then draw sorted results instantly.</p>
-        <div class="controls" aria-label="Draw settings">
-          <select id="gameCount" aria-label="Number of games">
-            <option value="1">1 game</option>
-            <option value="3">3 games</option>
-            <option value="5" selected>5 games</option>
-            <option value="10">10 games</option>
-          </select>
-          <button type="button" class="primary" id="drawButton">Draw numbers</button>
-          <button type="button" id="copyButton">Copy results</button>
-          <button type="button" id="resetButton">Reset</button>
-        </div>
+        <h1 id="page-title">나에게 딱 맞는 부업 찾기</h1>
+        <p class="subtitle">현재 상황, 가능한 시간, 관심 분야를 고르면 시작하기 좋은 부업 아이디어를 추천해 드립니다.</p>
       </header>
 
-      <div class="body">
-        <section class="machine" aria-label="Latest draw numbers">
-          <div class="draw-display" id="drawDisplay" aria-live="polite">
-            <span class="ball pending">?</span>
-            <span class="ball pending">?</span>
-            <span class="ball pending">?</span>
-            <span class="ball pending">?</span>
-            <span class="ball pending">?</span>
-            <span class="ball pending">?</span>
-          </div>
-          <p class="status" id="status"></p>
-        </section>
+      <div class="form">
+        <div class="form-group">
+          <label for="userType">1. 현재 당신의 상황은?</label>
+          <select id="userType">
+            <option value="직장인">직장인 (본업 유지형)</option>
+            <option value="육아맘">육아맘 (육아 병행형)</option>
+          </select>
+        </div>
 
-        <section class="results" id="results" aria-label="Draw results">
-          <div class="empty">No numbers have been drawn yet.</div>
-        </section>
+        <div class="form-group">
+          <label for="time">2. 하루에 부업에 투자할 수 있는 시간은?</label>
+          <select id="time">
+            <option value="자투리">자투리 시간 (30분 내외)</option>
+            <option value="1_2시간">하루 1~2시간</option>
+            <option value="주말">주말 집중</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="interest">3. 가장 흥미를 느끼거나 자신 있는 분야는?</label>
+          <select id="interest">
+            <option value="글쓰기">글쓰기 / 블로그</option>
+            <option value="디자인">디자인 / 창작</option>
+            <option value="지식공유">지식 / 경험 공유</option>
+            <option value="단순작업">단순 반복 / 데이터 수집</option>
+          </select>
+        </div>
+
+        <button type="button" id="recommendButton">결과 확인하기</button>
+
+        <div class="results" id="resultContainer" aria-live="polite"></div>
       </div>
     </section>
   </main>
 
   <script>
-    const drawButton = document.querySelector("#drawButton");
-    const copyButton = document.querySelector("#copyButton");
-    const resetButton = document.querySelector("#resetButton");
-    const themeButton = document.querySelector("#themeButton");
-    const gameCount = document.querySelector("#gameCount");
-    const drawDisplay = document.querySelector("#drawDisplay");
-    const results = document.querySelector("#results");
-    const status = document.querySelector("#status");
-
-    let currentGames = [];
-
-    function getBallClass(number) {
-      if (number <= 10) return "yellow";
-      if (number <= 20) return "blue";
-      if (number <= 30) return "red";
-      if (number <= 40) return "gray";
-      return "green";
-    }
-
-    function createBall(number, index = 0) {
-      const ball = document.createElement("span");
-      ball.className = `ball ${getBallClass(number)}`;
-      ball.textContent = number;
-      ball.style.animationDelay = `${index * 45}ms`;
-      return ball;
-    }
-
-    function drawNumbers() {
-      const pool = Array.from({ length: 45 }, (_, index) => index + 1);
-      const picked = [];
-
-      while (picked.length < 6) {
-        const randomIndex = Math.floor(Math.random() * pool.length);
-        picked.push(pool.splice(randomIndex, 1)[0]);
+    const sideHustles = [
+      {
+        type: "직장인",
+        time: "1_2시간",
+        interest: "글쓰기",
+        title: "전문 분야 네이버 블로그 / 티스토리 운영",
+        desc: "퇴근 후 본인의 직무 지식이나 취미를 글로 풀어내어 애드포스트 및 애드센스 수익을 창출합니다."
+      },
+      {
+        type: "직장인",
+        time: "주말",
+        interest: "지식공유",
+        title: "크몽 / 숨고 직무 컨설팅 및 전자책 출판",
+        desc: "본업의 노하우(이력서 작성, 엑셀 활용법 등)를 문서화하여 주말에 컨설팅하거나 전자책으로 판매합니다."
+      },
+      {
+        type: "육아맘",
+        time: "1_2시간",
+        interest: "디자인",
+        title: "아이패드 드로잉 (이모티콘 & 굿노트 서식)",
+        desc: "아이가 낮잠 자는 시간을 활용해 템플릿이나 캐릭터를 그리고 엣시(Etsy)나 카카오에 제안합니다."
+      },
+      {
+        type: "육아맘",
+        time: "자투리",
+        interest: "단순작업",
+        title: "데이터 라벨링 & 앱테크",
+        desc: "크라우드웍스 등에서 모바일로 짧은 시간에 할 수 있는 사진 촬영, 음성 녹음 등의 작업을 수행합니다."
+      },
+      {
+        type: "육아맘",
+        time: "자투리",
+        interest: "글쓰기",
+        title: "육아/생활 정보 맘카페 제휴 마케터",
+        desc: "직접 사용해 본 육아용품을 리뷰하며 쿠팡 파트너스 등의 제휴 링크를 통해 수익을 얻습니다."
       }
+    ];
 
-      return picked.sort((a, b) => a - b);
+    const resultContainer = document.querySelector("#resultContainer");
+    const recommendButton = document.querySelector("#recommendButton");
+
+    function createResultCard(title, desc) {
+      const card = document.createElement("article");
+      card.className = "result-card";
+
+      const heading = document.createElement("div");
+      heading.className = "result-title";
+      heading.textContent = title;
+
+      const description = document.createElement("div");
+      description.className = "result-desc";
+      description.textContent = desc;
+
+      card.append(heading, description);
+      return card;
     }
 
-    function renderLatest(numbers) {
-      drawDisplay.replaceChildren(...numbers.map(createBall));
-    }
+    function recommendHustle() {
+      const userType = document.querySelector("#userType").value;
+      const time = document.querySelector("#time").value;
+      const interest = document.querySelector("#interest").value;
 
-    function renderResults() {
-      if (currentGames.length === 0) {
-        results.innerHTML = '<div class="empty">No numbers have been drawn yet.</div>';
+      const matches = sideHustles.filter((item) =>
+        item.type === userType &&
+        (item.time === time || item.time === "상관없음") &&
+        item.interest === interest
+      );
+
+      resultContainer.replaceChildren();
+
+      if (matches.length > 0) {
+        matches.forEach((match) => {
+          resultContainer.append(createResultCard(`💡 ${match.title}`, match.desc));
+        });
         return;
       }
 
-      const fragment = document.createDocumentFragment();
-
-      currentGames.forEach((numbers, gameIndex) => {
-        const row = document.createElement("article");
-        row.className = "game";
-
-        const title = document.createElement("div");
-        title.className = "game-title";
-        title.textContent = `Game ${gameIndex + 1}`;
-
-        const numberGroup = document.createElement("div");
-        numberGroup.className = "numbers";
-        numbers.forEach((number, index) => numberGroup.append(createBall(number, index)));
-
-        row.append(title, numberGroup);
-        fragment.append(row);
-      });
-
-      results.replaceChildren(fragment);
+      resultContainer.append(createResultCard(
+        "🔍 조금 더 유연한 조건이 필요해요!",
+        "선택하신 조합에 딱 맞는 부업을 찾고 있습니다. 조건을 조금 변경해 보시거나, 가장 인기 있는 '블로그 수익화'부터 시작해 보는 것은 어떨까요?"
+      ));
     }
 
-    function drawGames() {
-      const count = Number(gameCount.value);
-      currentGames = Array.from({ length: count }, drawNumbers);
-      renderLatest(currentGames[0]);
-      renderResults();
-      status.textContent = `${count} ${count === 1 ? "game" : "games"} generated.`;
-    }
-
-    async function copyResults() {
-      if (currentGames.length === 0) {
-        status.textContent = "There are no draw results to copy.";
-        return;
-      }
-
-      const text = currentGames
-        .map((numbers, index) => `Game ${index + 1}: ${numbers.join(", ")}`)
-        .join("\n");
-
-      try {
-        await navigator.clipboard.writeText(text);
-        status.textContent = "Draw results copied to the clipboard.";
-      } catch {
-        status.textContent = "Copy failed because the browser blocked clipboard access.";
-      }
-    }
-
-    function resetGames() {
-      currentGames = [];
-      drawDisplay.innerHTML = Array.from({ length: 6 }, () => '<span class="ball pending">?</span>').join("");
-      renderResults();
-      status.textContent = "";
-    }
-
-    function toggleTheme() {
-      const isDark = document.body.classList.toggle("dark");
-      themeButton.textContent = isDark ? "Light mode" : "Dark mode";
-      themeButton.setAttribute("aria-pressed", String(isDark));
-    }
-
-    drawButton.addEventListener("click", drawGames);
-    copyButton.addEventListener("click", copyResults);
-    resetButton.addEventListener("click", resetGames);
-    themeButton.addEventListener("click", toggleTheme);
+    recommendButton.addEventListener("click", recommendHustle);
   </script>
 </body>
 </html>

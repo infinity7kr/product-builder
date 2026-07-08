@@ -1,169 +1,446 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>로또 번호 추천기</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로또 번호 추첨기</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --panel-soft: #eef4ff;
+      --text: #182230;
+      --muted: #667085;
+      --line: #d6e0ef;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --success: #0f9f6e;
+      --shadow: 0 18px 55px rgba(24, 34, 48, 0.12);
+    }
 
-<style>
-:root{
-    --page-bg:#f5f5f5;
-    --panel-bg:#ffffff;
-    --text:#2c3e50;
-    --muted:#4b5f73;
-    --set-bg:#fafafa;
-    --set-border:#ddd;
-    --shadow:rgba(0,0,0,.15);
-    --switch-bg:#95a5a6;
-    --switch-active:#2c3e50;
-    --primary:#3498db;
-    --primary-hover:#217dbb;
-}
+    body.dark {
+      color-scheme: dark;
+      --bg: #111827;
+      --panel: #1f2937;
+      --panel-soft: #263449;
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --line: #334155;
+      --primary: #60a5fa;
+      --primary-dark: #3b82f6;
+      --success: #34d399;
+      --shadow: 0 18px 55px rgba(0, 0, 0, 0.35);
+    }
 
-body{
-    font-family:'맑은 고딕',sans-serif;
-    background:var(--page-bg);
-    color:var(--text);
-    text-align:center;
-    padding:40px;
-    transition:background .3s,color .3s;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-.container{
-    max-width:900px;
-    margin:auto;
-    background:var(--panel-bg);
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 0 15px var(--shadow);
-    transition:background .3s,box-shadow .3s;
-}
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        var(--bg);
+    }
 
-h1{
-    color:var(--text);
-}
+    main {
+      width: min(960px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0;
+    }
 
-p,h3{
-    color:var(--muted);
-}
+    .app {
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
 
-button{
-    margin:20px;
-    padding:15px 40px;
-    font-size:20px;
-    border:none;
-    border-radius:10px;
-    background:var(--primary);
-    color:white;
-    cursor:pointer;
-    transition:.3s;
-}
+    .header {
+      display: grid;
+      gap: 18px;
+      padding: 34px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(15, 159, 110, 0.08));
+      border-bottom: 1px solid var(--line);
+    }
 
-button:hover{
-    background:var(--primary-hover);
-}
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
 
-.set{
-    margin:20px 0;
-    padding:15px;
-    background:var(--set-bg);
-    border-radius:10px;
-    border:1px solid var(--set-border);
-    transition:background .3s,border-color .3s;
-}
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
 
-.ball{
-    display:inline-flex;
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    justify-content:center;
-    align-items:center;
-    color:white;
-    font-weight:bold;
-    margin:5px;
-    font-size:18px;
-}
+    .subtitle {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
 
-.yellow{background:#f1c40f;}
-.blue{background:#3498db;}
-.red{background:#e74c3c;}
-.gray{background:#7f8c8d;}
-.green{background:#27ae60;}
-</style>
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
 
+    button,
+    select {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    button {
+      padding: 0 18px;
+      color: var(--text);
+      background: var(--panel);
+      cursor: pointer;
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: var(--primary);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .primary {
+      color: #ffffff;
+      background: var(--primary);
+      border-color: var(--primary);
+      font-weight: 700;
+    }
+
+    .primary:hover {
+      background: var(--primary-dark);
+    }
+
+    select {
+      padding: 0 40px 0 14px;
+      color: var(--text);
+      background: var(--panel);
+    }
+
+    .body {
+      display: grid;
+      gap: 22px;
+      padding: 28px 34px 34px;
+    }
+
+    .machine {
+      display: grid;
+      gap: 18px;
+      justify-items: center;
+      padding: 28px;
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .draw-display {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      min-height: 62px;
+    }
+
+    .ball {
+      display: inline-grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      border-radius: 999px;
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 800;
+      box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.14), 0 8px 16px rgba(0, 0, 0, 0.12);
+      animation: pop 0.22s ease both;
+    }
+
+    .ball.pending {
+      color: var(--muted);
+      background: var(--panel);
+      border: 1px dashed var(--line);
+      box-shadow: none;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    .yellow { background: #f2b720; }
+    .blue { background: #3b82f6; }
+    .red { background: #ef4444; }
+    .gray { background: #64748b; }
+    .green { background: #10b981; }
+
+    .results {
+      display: grid;
+      gap: 12px;
+    }
+
+    .game {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .game-title {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .numbers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .status {
+      min-height: 24px;
+      margin: 0;
+      color: var(--success);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .empty {
+      padding: 26px;
+      color: var(--muted);
+      text-align: center;
+      background: var(--panel-soft);
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+    }
+
+    @keyframes pop {
+      from {
+        transform: translateY(8px) scale(0.85);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        width: min(100% - 18px, 960px);
+        padding: 9px 0;
+      }
+
+      .header,
+      .body {
+        padding: 22px;
+      }
+
+      .topbar,
+      .controls {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      button,
+      select {
+        width: 100%;
+      }
+
+      .game {
+        grid-template-columns: 1fr;
+      }
+
+      .ball {
+        width: 46px;
+        height: 46px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <main>
+    <section class="app" aria-labelledby="page-title">
+      <header class="header">
+        <div class="topbar">
+          <h1 id="page-title">로또 번호 추첨기</h1>
+          <button type="button" id="themeButton" aria-pressed="false">다크모드</button>
+        </div>
+        <p class="subtitle">1부터 45까지 중복 없이 6개 번호를 뽑습니다. 게임 수를 고른 뒤 추첨하면 번호가 낮은 순서로 정렬됩니다.</p>
+        <div class="controls" aria-label="추첨 설정">
+          <select id="gameCount" aria-label="게임 수">
+            <option value="1">1게임</option>
+            <option value="3">3게임</option>
+            <option value="5" selected>5게임</option>
+            <option value="10">10게임</option>
+          </select>
+          <button type="button" class="primary" id="drawButton">번호 추첨하기</button>
+          <button type="button" id="copyButton">결과 복사</button>
+          <button type="button" id="resetButton">초기화</button>
+        </div>
+      </header>
 
-<div class="container">
+      <div class="body">
+        <section class="machine" aria-label="최근 추첨 번호">
+          <div class="draw-display" id="drawDisplay" aria-live="polite">
+            <span class="ball pending">?</span>
+            <span class="ball pending">?</span>
+            <span class="ball pending">?</span>
+            <span class="ball pending">?</span>
+            <span class="ball pending">?</span>
+            <span class="ball pending">?</span>
+          </div>
+          <p class="status" id="status"></p>
+        </section>
 
-<h1 id="title">🎲 로또 번호 추천기</h1>
+        <section class="results" id="results" aria-label="추첨 결과">
+          <div class="empty">아직 추첨한 번호가 없습니다.</div>
+        </section>
+      </div>
+    </section>
+  </main>
 
-<p id="desc">버튼을 누르면 번호 5세트가 생성됩니다.</p>
+  <script>
+    const drawButton = document.querySelector("#drawButton");
+    const copyButton = document.querySelector("#copyButton");
+    const resetButton = document.querySelector("#resetButton");
+    const themeButton = document.querySelector("#themeButton");
+    const gameCount = document.querySelector("#gameCount");
+    const drawDisplay = document.querySelector("#drawDisplay");
+    const results = document.querySelector("#results");
+    const status = document.querySelector("#status");
 
-<button onclick="makeLotto()" id="btn-generate">번호 추천받기</button>
+    let currentGames = [];
 
-<div id="result"></div>
-
-</div>
-
-<script>
-
-function createNumbers(){
-
-    let nums=[];
-
-    while(nums.length<6){
-
-        let n=Math.floor(Math.random()*45)+1;
-
-        if(!nums.includes(n)){
-            nums.push(n);
-        }
-
+    function getBallClass(number) {
+      if (number <= 10) return "yellow";
+      if (number <= 20) return "blue";
+      if (number <= 30) return "red";
+      if (number <= 40) return "gray";
+      return "green";
     }
 
-    nums.sort((a,b)=>a-b);
-
-    return nums;
-}
-
-function color(num){
-
-    if(num<=10) return "yellow";
-    if(num<=20) return "blue";
-    if(num<=30) return "red";
-    if(num<=40) return "gray";
-    return "green";
-}
-
-function makeLotto(){
-
-    let html="";
-
-    for(let i=1;i<=5;i++){
-
-        let numbers=createNumbers();
-
-        html+=`<div class="set">
-        <h3>${i}번째 추천번호</h3>`;
-
-        numbers.forEach(n=>{
-
-            html+=`<span class="ball ${color(n)}">${n}</span>`;
-
-        });
-
-        html+="</div>";
+    function createBall(number, index = 0) {
+      const ball = document.createElement("span");
+      ball.className = `ball ${getBallClass(number)}`;
+      ball.textContent = number;
+      ball.style.animationDelay = `${index * 45}ms`;
+      return ball;
     }
 
-    document.getElementById("result").innerHTML=html;
+    function drawNumbers() {
+      const pool = Array.from({ length: 45 }, (_, index) => index + 1);
+      const picked = [];
 
-}
+      while (picked.length < 6) {
+        const randomIndex = Math.floor(Math.random() * pool.length);
+        picked.push(pool.splice(randomIndex, 1)[0]);
+      }
 
-makeLotto();
+      return picked.sort((a, b) => a - b);
+    }
 
-</script>
+    function renderLatest(numbers) {
+      drawDisplay.replaceChildren(...numbers.map(createBall));
+    }
 
+    function renderResults() {
+      if (currentGames.length === 0) {
+        results.innerHTML = '<div class="empty">아직 추첨한 번호가 없습니다.</div>';
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      currentGames.forEach((numbers, gameIndex) => {
+        const row = document.createElement("article");
+        row.className = "game";
+
+        const title = document.createElement("div");
+        title.className = "game-title";
+        title.textContent = `${gameIndex + 1}게임`;
+
+        const numberGroup = document.createElement("div");
+        numberGroup.className = "numbers";
+        numbers.forEach((number, index) => numberGroup.append(createBall(number, index)));
+
+        row.append(title, numberGroup);
+        fragment.append(row);
+      });
+
+      results.replaceChildren(fragment);
+    }
+
+    function drawGames() {
+      const count = Number(gameCount.value);
+      currentGames = Array.from({ length: count }, drawNumbers);
+      renderLatest(currentGames[0]);
+      renderResults();
+      status.textContent = `${count}게임 추첨이 완료되었습니다.`;
+    }
+
+    async function copyResults() {
+      if (currentGames.length === 0) {
+        status.textContent = "복사할 추첨 결과가 없습니다.";
+        return;
+      }
+
+      const text = currentGames
+        .map((numbers, index) => `${index + 1}게임: ${numbers.join(", ")}`)
+        .join("\n");
+
+      try {
+        await navigator.clipboard.writeText(text);
+        status.textContent = "추첨 결과를 클립보드에 복사했습니다.";
+      } catch {
+        status.textContent = "브라우저 권한 때문에 복사하지 못했습니다.";
+      }
+    }
+
+    function resetGames() {
+      currentGames = [];
+      drawDisplay.innerHTML = Array.from({ length: 6 }, () => '<span class="ball pending">?</span>').join("");
+      renderResults();
+      status.textContent = "";
+    }
+
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle("dark");
+      themeButton.textContent = isDark ? "라이트모드" : "다크모드";
+      themeButton.setAttribute("aria-pressed", String(isDark));
+    }
+
+    drawButton.addEventListener("click", drawGames);
+    copyButton.addEventListener("click", copyResults);
+    resetButton.addEventListener("click", resetGames);
+    themeButton.addEventListener("click", toggleTheme);
+  </script>
 </body>
 </html>

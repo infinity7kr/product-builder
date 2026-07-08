@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>로또 번호 추첨기</title>
+  <meta name="description" content="Generate random lottery numbers from 1 to 45 with duplicate-free draws, copyable results, and light or dark mode.">
+  <title>Lottery Number Generator</title>
   <style>
     :root {
       color-scheme: light;
@@ -40,7 +41,7 @@
     body {
       min-height: 100vh;
       margin: 0;
-      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
       background:
         radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
@@ -290,25 +291,25 @@
     <section class="app" aria-labelledby="page-title">
       <header class="header">
         <div class="topbar">
-          <h1 id="page-title">로또 번호 추첨기</h1>
-          <button type="button" id="themeButton" aria-pressed="false">다크모드</button>
+          <h1 id="page-title">Lottery Number Generator</h1>
+          <button type="button" id="themeButton" aria-pressed="false">Dark mode</button>
         </div>
-        <p class="subtitle">1부터 45까지 중복 없이 6개 번호를 뽑습니다. 게임 수를 고른 뒤 추첨하면 번호가 낮은 순서로 정렬됩니다.</p>
-        <div class="controls" aria-label="추첨 설정">
-          <select id="gameCount" aria-label="게임 수">
-            <option value="1">1게임</option>
-            <option value="3">3게임</option>
-            <option value="5" selected>5게임</option>
-            <option value="10">10게임</option>
+        <p class="subtitle">Generate six unique numbers from 1 to 45. Choose how many games to create, then draw sorted results instantly.</p>
+        <div class="controls" aria-label="Draw settings">
+          <select id="gameCount" aria-label="Number of games">
+            <option value="1">1 game</option>
+            <option value="3">3 games</option>
+            <option value="5" selected>5 games</option>
+            <option value="10">10 games</option>
           </select>
-          <button type="button" class="primary" id="drawButton">번호 추첨하기</button>
-          <button type="button" id="copyButton">결과 복사</button>
-          <button type="button" id="resetButton">초기화</button>
+          <button type="button" class="primary" id="drawButton">Draw numbers</button>
+          <button type="button" id="copyButton">Copy results</button>
+          <button type="button" id="resetButton">Reset</button>
         </div>
       </header>
 
       <div class="body">
-        <section class="machine" aria-label="최근 추첨 번호">
+        <section class="machine" aria-label="Latest draw numbers">
           <div class="draw-display" id="drawDisplay" aria-live="polite">
             <span class="ball pending">?</span>
             <span class="ball pending">?</span>
@@ -320,8 +321,8 @@
           <p class="status" id="status"></p>
         </section>
 
-        <section class="results" id="results" aria-label="추첨 결과">
-          <div class="empty">아직 추첨한 번호가 없습니다.</div>
+        <section class="results" id="results" aria-label="Draw results">
+          <div class="empty">No numbers have been drawn yet.</div>
         </section>
       </div>
     </section>
@@ -373,7 +374,7 @@
 
     function renderResults() {
       if (currentGames.length === 0) {
-        results.innerHTML = '<div class="empty">아직 추첨한 번호가 없습니다.</div>';
+        results.innerHTML = '<div class="empty">No numbers have been drawn yet.</div>';
         return;
       }
 
@@ -385,7 +386,7 @@
 
         const title = document.createElement("div");
         title.className = "game-title";
-        title.textContent = `${gameIndex + 1}게임`;
+        title.textContent = `Game ${gameIndex + 1}`;
 
         const numberGroup = document.createElement("div");
         numberGroup.className = "numbers";
@@ -403,24 +404,24 @@
       currentGames = Array.from({ length: count }, drawNumbers);
       renderLatest(currentGames[0]);
       renderResults();
-      status.textContent = `${count}게임 추첨이 완료되었습니다.`;
+      status.textContent = `${count} ${count === 1 ? "game" : "games"} generated.`;
     }
 
     async function copyResults() {
       if (currentGames.length === 0) {
-        status.textContent = "복사할 추첨 결과가 없습니다.";
+        status.textContent = "There are no draw results to copy.";
         return;
       }
 
       const text = currentGames
-        .map((numbers, index) => `${index + 1}게임: ${numbers.join(", ")}`)
+        .map((numbers, index) => `Game ${index + 1}: ${numbers.join(", ")}`)
         .join("\n");
 
       try {
         await navigator.clipboard.writeText(text);
-        status.textContent = "추첨 결과를 클립보드에 복사했습니다.";
+        status.textContent = "Draw results copied to the clipboard.";
       } catch {
-        status.textContent = "브라우저 권한 때문에 복사하지 못했습니다.";
+        status.textContent = "Copy failed because the browser blocked clipboard access.";
       }
     }
 
@@ -433,7 +434,7 @@
 
     function toggleTheme() {
       const isDark = document.body.classList.toggle("dark");
-      themeButton.textContent = isDark ? "라이트모드" : "다크모드";
+      themeButton.textContent = isDark ? "Light mode" : "Dark mode";
       themeButton.setAttribute("aria-pressed", String(isDark));
     }
 

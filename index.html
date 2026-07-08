@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="상황, 시간, 관심 분야, 목표 수익, 초기 비용, 업무 스타일, 수익화 속도를 선택해 나에게 맞는 부업 아이디어를 추천받는 사이트입니다.">
+  <meta name="description" content="직장인과 육아맘을 위한 부업 추천 도구와 현실적인 시작 가이드입니다. 시간, 예산, 관심사, 수익 목표에 맞는 부업을 비교해 보세요.">
   <meta name="google-adsense-account" content="ca-pub-5731859246890885">
-  <title>나에게 딱 맞는 부업 찾기</title>
+  <link rel="canonical" href="https://infinity7kr.github.io/product-builder/">
+  <title>나에게 딱 맞는 부업 찾기 | 현실적인 부업 추천 가이드</title>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5731859246890885" crossorigin="anonymous"></script>
   <style>
     :root {
@@ -16,9 +17,10 @@
       --text: #1f2933;
       --muted: #667085;
       --line: #dce5e1;
-      --primary: #4caf50;
-      --primary-dark: #3f9143;
+      --primary: #2f8f46;
+      --primary-dark: #236f35;
       --accent: #ecf8ee;
+      --warning: #fff7ed;
       --shadow: 0 18px 55px rgba(31, 41, 51, 0.1);
     }
 
@@ -26,64 +28,166 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       min-height: 100vh;
       margin: 0;
-      padding: 20px;
       font-family: Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(76, 175, 80, 0.18), transparent 32rem),
+        radial-gradient(circle at top left, rgba(47, 143, 70, 0.16), transparent 32rem),
         var(--bg);
     }
 
-    main {
-      width: min(100%, 680px);
-      margin: 0 auto;
-      padding: 28px 0;
+    a {
+      color: inherit;
     }
 
-    .container {
-      overflow: hidden;
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(244, 247, 246, 0.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 14px 0;
+      gap: 16px;
+    }
+
+    .brand {
+      color: #1d3524;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 52px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-copy,
+    .panel,
+    .article-card,
+    .notice {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 12px;
       box-shadow: var(--shadow);
     }
 
-    .header {
+    .hero-copy {
       display: grid;
-      gap: 10px;
-      padding: 30px;
-      text-align: center;
-      background: linear-gradient(135deg, rgba(76, 175, 80, 0.16), rgba(236, 248, 238, 0.78));
-      border-bottom: 1px solid var(--line);
+      align-content: center;
+      gap: 18px;
+      padding: 42px;
+      background: linear-gradient(135deg, rgba(47, 143, 70, 0.14), rgba(236, 248, 238, 0.82));
     }
 
-    h1 {
+    .eyebrow {
       margin: 0;
-      color: #233128;
-      font-size: clamp(1.8rem, 5vw, 2.6rem);
-      line-height: 1.15;
+      color: var(--primary-dark);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      color: #203126;
       letter-spacing: 0;
     }
 
-    .subtitle {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.98rem;
-      line-height: 1.65;
+    h1 {
+      max-width: 660px;
+      font-size: clamp(2.1rem, 5vw, 4rem);
+      line-height: 1.08;
     }
 
-    .form {
+    h2 {
+      font-size: clamp(1.55rem, 3vw, 2.15rem);
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: 1.12rem;
+      line-height: 1.35;
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.72;
+    }
+
+    .lead {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .quick-list {
       display: grid;
-      gap: 20px;
-      padding: 30px;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: #36513d;
+      font-weight: 700;
+    }
+
+    .panel {
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: grid;
+      gap: 8px;
+      padding: 26px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .quiz {
+      display: grid;
+      gap: 18px;
+      padding: 26px;
     }
 
     .form-group {
       display: grid;
-      gap: 8px;
+      gap: 7px;
     }
 
     label {
@@ -108,12 +212,11 @@
     }
 
     button {
-      margin-top: 4px;
       color: #ffffff;
       background: var(--primary);
       border: 0;
       cursor: pointer;
-      font-weight: 800;
+      font-weight: 900;
       transition: background 0.16s ease, transform 0.16s ease;
     }
 
@@ -122,13 +225,10 @@
       transform: translateY(-1px);
     }
 
-    button:active {
-      transform: translateY(0);
-    }
-
     .results {
       display: grid;
       gap: 14px;
+      margin-top: 2px;
     }
 
     .result-card {
@@ -140,114 +240,356 @@
     }
 
     .result-title {
-      margin-bottom: 7px;
+      margin-bottom: 8px;
       color: #1f2a22;
-      font-size: 1.1rem;
+      font-size: 1.08rem;
       font-weight: 900;
       line-height: 1.45;
     }
 
-    .result-desc {
+    .result-desc,
+    .result-meta {
       color: var(--muted);
       font-size: 0.95rem;
+      line-height: 1.68;
+    }
+
+    .result-meta {
+      margin-top: 10px;
+      color: #3f6548;
+      font-weight: 700;
+    }
+
+    .section {
+      display: grid;
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    .section-intro {
+      max-width: 760px;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .two-col {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .article-card {
+      display: grid;
+      gap: 10px;
+      padding: 22px;
+      box-shadow: none;
+    }
+
+    .article-card ul,
+    .article-card ol {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
       line-height: 1.65;
     }
 
-    @media (max-width: 560px) {
-      body {
-        padding: 10px;
+    .tag {
+      width: fit-content;
+      padding: 5px 9px;
+      color: var(--primary-dark);
+      background: var(--accent);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+
+    .notice {
+      display: grid;
+      gap: 10px;
+      padding: 22px;
+      background: var(--warning);
+      box-shadow: none;
+    }
+
+    .site-footer {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-size: 0.94rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .grid,
+      .two-col {
+        grid-template-columns: 1fr;
       }
 
-      main {
-        padding: 0;
+      .site-header {
+        position: static;
       }
 
-      .header,
-      .form {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero-copy,
+      .panel-header,
+      .quiz {
         padding: 22px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      main,
+      .nav,
+      .site-footer {
+        width: min(100% - 20px, 1120px);
       }
     }
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="brand" href="./">부업 맞춤 가이드</a>
+      <div class="nav-links">
+        <a href="#quiz">추천 도구</a>
+        <a href="#guide">부업 가이드</a>
+        <a href="#checklist">체크리스트</a>
+        <a href="#faq">FAQ</a>
+        <a href="about.html">소개</a>
+        <a href="privacy.html">개인정보처리방침</a>
+      </div>
+    </nav>
+  </header>
+
   <main>
-    <section class="container" aria-labelledby="page-title">
-      <header class="header">
-        <h1 id="page-title">나에게 딱 맞는 부업 찾기</h1>
-        <p class="subtitle">7가지 질문에 답하면 지금 시작하기 좋은 부업 아이디어를 추천해 드립니다.</p>
-      </header>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">직장인과 육아맘을 위한 현실적인 부업 선택</p>
+        <h1 id="page-title">나에게 맞는 부업을 찾고, 첫 30일 계획까지 세워보세요</h1>
+        <p class="lead">무작정 돈 되는 부업을 고르기보다 시간, 초기 비용, 업무 방식, 수익화 속도를 함께 비교해야 오래 지속할 수 있습니다. 아래 추천기는 7가지 질문을 바탕으로 시작 가능한 부업을 좁혀줍니다.</p>
+        <ul class="quick-list" aria-label="사이트 핵심 기능">
+          <li>✓ 7개 조건 기반 부업 추천</li>
+          <li>✓ 부업별 시작 난이도와 첫 단계 안내</li>
+          <li>✓ 과장된 수익 표현보다 현실적인 실행 기준 제공</li>
+        </ul>
+      </div>
 
-      <div class="form">
-        <div class="form-group">
-          <label for="userType">1. 현재 당신의 상황은?</label>
-          <select id="userType">
-            <option value="직장인">직장인 (본업 유지형)</option>
-            <option value="육아맘">육아맘 (육아 병행형)</option>
-          </select>
+      <section class="panel" id="quiz" aria-labelledby="quiz-title">
+        <div class="panel-header">
+          <h2 id="quiz-title">부업 추천 도구</h2>
+          <p class="section-intro">답변은 브라우저 안에서만 계산되며 서버로 전송되지 않습니다.</p>
         </div>
 
-        <div class="form-group">
-          <label for="time">2. 하루에 부업에 투자할 수 있는 시간은?</label>
-          <select id="time">
-            <option value="자투리">자투리 시간 (30분 내외)</option>
-            <option value="1_2시간">하루 1~2시간</option>
-            <option value="주말">주말 집중</option>
-          </select>
+        <div class="quiz">
+          <div class="form-group">
+            <label for="userType">1. 현재 당신의 상황은?</label>
+            <select id="userType">
+              <option value="직장인">직장인 (본업 유지형)</option>
+              <option value="육아맘">육아맘 (육아 병행형)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="time">2. 하루에 부업에 투자할 수 있는 시간은?</label>
+            <select id="time">
+              <option value="자투리">자투리 시간 (30분 내외)</option>
+              <option value="1_2시간">하루 1~2시간</option>
+              <option value="주말">주말 집중</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="interest">3. 가장 흥미를 느끼거나 자신 있는 분야는?</label>
+            <select id="interest">
+              <option value="글쓰기">글쓰기 / 블로그</option>
+              <option value="디자인">디자인 / 창작</option>
+              <option value="지식공유">지식 / 경험 공유</option>
+              <option value="단순작업">단순 반복 / 데이터 수집</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="goal">4. 부업으로 원하는 월 수익 목표는?</label>
+            <select id="goal">
+              <option value="소액">월 10만 원 이하 소액</option>
+              <option value="중간">월 30만~100만 원</option>
+              <option value="확장">월 100만 원 이상 확장</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="budget">5. 시작할 때 쓸 수 있는 초기 비용은?</label>
+            <select id="budget">
+              <option value="없음">거의 없음</option>
+              <option value="소액">10만 원 이하</option>
+              <option value="투자">장비/강의 등에 투자 가능</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="workStyle">6. 선호하는 업무 방식은?</label>
+            <select id="workStyle">
+              <option value="혼자">혼자 조용히 작업</option>
+              <option value="소통">고객/커뮤니티와 소통</option>
+              <option value="제작">콘텐츠나 상품 제작</option>
+              <option value="반복">정해진 일을 반복 수행</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="speed">7. 수익이 나기까지 기다릴 수 있는 기간은?</label>
+            <select id="speed">
+              <option value="빠름">가능하면 빠르게</option>
+              <option value="보통">1~3개월 정도</option>
+              <option value="장기">6개월 이상도 가능</option>
+            </select>
+          </div>
+
+          <button type="button" id="recommendButton">결과 확인하기</button>
+          <div class="results" id="resultContainer" aria-live="polite"></div>
         </div>
+      </section>
+    </section>
 
-        <div class="form-group">
-          <label for="interest">3. 가장 흥미를 느끼거나 자신 있는 분야는?</label>
-          <select id="interest">
-            <option value="글쓰기">글쓰기 / 블로그</option>
-            <option value="디자인">디자인 / 창작</option>
-            <option value="지식공유">지식 / 경험 공유</option>
-            <option value="단순작업">단순 반복 / 데이터 수집</option>
-          </select>
-        </div>
+    <section class="section" id="guide" aria-labelledby="guide-title">
+      <h2 id="guide-title">부업을 고를 때 먼저 확인할 기준</h2>
+      <p class="section-intro">고품질 부업 정보는 “무조건 고수익”을 말하지 않습니다. 본업과 생활 리듬을 해치지 않는지, 초기에 배워야 할 것이 무엇인지, 수익까지 걸리는 시간이 어느 정도인지 먼저 따져야 합니다.</p>
+      <div class="grid">
+        <article class="article-card">
+          <span class="tag">시간</span>
+          <h3>하루 30분과 주말형은 전략이 다릅니다</h3>
+          <p>자투리 시간에는 앱테크, 데이터 라벨링, 상품 등록처럼 작은 단위로 끊을 수 있는 일이 맞습니다. 주말에 몰아서 할 수 있다면 전자책, 강의, 템플릿 제작처럼 누적형 자산을 만드는 쪽이 유리합니다.</p>
+        </article>
+        <article class="article-card">
+          <span class="tag">비용</span>
+          <h3>초기 비용보다 회수 기간을 봐야 합니다</h3>
+          <p>장비나 강의를 먼저 구매하기 전에 무료 도구로 최소 결과물을 만들어 보세요. 첫 고객, 첫 조회수, 첫 판매 가능성을 확인한 뒤 필요한 비용을 쓰는 편이 실패 비용을 줄입니다.</p>
+        </article>
+        <article class="article-card">
+          <span class="tag">지속성</span>
+          <h3>관심 없는 분야는 오래가기 어렵습니다</h3>
+          <p>부업은 대부분 초반 수익이 작습니다. 그래서 단기 수익만 보고 고르면 중간에 멈추기 쉽습니다. 관심 분야와 기존 경험을 연결하면 학습 비용이 낮아지고 콘텐츠의 깊이도 좋아집니다.</p>
+        </article>
+      </div>
+    </section>
 
-        <div class="form-group">
-          <label for="goal">4. 부업으로 원하는 월 수익 목표는?</label>
-          <select id="goal">
-            <option value="소액">월 10만 원 이하 소액</option>
-            <option value="중간">월 30만~100만 원</option>
-            <option value="확장">월 100만 원 이상 확장</option>
-          </select>
-        </div>
+    <section class="section" aria-labelledby="types-title">
+      <h2 id="types-title">추천 부업 유형별 현실 가이드</h2>
+      <div class="grid two-col">
+        <article class="article-card">
+          <h3>블로그 / 티스토리 운영</h3>
+          <p>직무 경험, 생활 노하우, 육아 기록처럼 꾸준히 쓸 수 있는 주제가 있을 때 적합합니다. 광고 수익은 시간이 걸리므로 처음 3개월은 글의 양보다 검색자가 실제로 궁금해하는 질문에 답하는 데 집중하는 것이 좋습니다.</p>
+          <ul>
+            <li>첫 단계: 주제 1개를 정하고 글 제목 20개 작성</li>
+            <li>주의점: 다른 글을 짜깁기하지 말고 직접 경험을 넣기</li>
+          </ul>
+        </article>
+        <article class="article-card">
+          <h3>전자책 / 직무 컨설팅</h3>
+          <p>이력서, 엑셀, 업무 자동화, 면접 준비처럼 명확한 문제를 해결해 줄 수 있는 사람에게 맞습니다. 완벽한 책보다 특정 문제 하나를 해결하는 짧은 자료가 첫 판매에 더 유리할 수 있습니다.</p>
+          <ul>
+            <li>첫 단계: 자주 받는 질문 10개를 목차로 정리</li>
+            <li>주의점: 수익 보장처럼 오해될 표현은 피하기</li>
+          </ul>
+        </article>
+        <article class="article-card">
+          <h3>디지털 템플릿 제작</h3>
+          <p>캔바, 굿노트, 노션, 발표 자료처럼 반복해서 쓰이는 양식을 만드는 부업입니다. 디자인 감각뿐 아니라 구매자가 시간을 절약할 수 있는 구조를 제공하는 것이 중요합니다.</p>
+          <ul>
+            <li>첫 단계: 무료 템플릿 3개를 만들어 반응 확인</li>
+            <li>주의점: 폰트와 이미지의 상업적 사용 가능 여부 확인</li>
+          </ul>
+        </article>
+        <article class="article-card">
+          <h3>데이터 라벨링 / 상품 등록</h3>
+          <p>빠르게 시작할 수 있지만 단가가 낮을 수 있어 목표 수익을 현실적으로 잡아야 합니다. 초반에는 작업 방식에 익숙해지고, 이후에는 상세페이지 보조나 운영 대행처럼 더 높은 단가의 업무로 넓히는 전략이 필요합니다.</p>
+          <ul>
+            <li>첫 단계: 검증된 플랫폼에서 소액 작업부터 시작</li>
+            <li>주의점: 선입금이나 과도한 개인정보 요구를 조심</li>
+          </ul>
+        </article>
+      </div>
+    </section>
 
-        <div class="form-group">
-          <label for="budget">5. 시작할 때 쓸 수 있는 초기 비용은?</label>
-          <select id="budget">
-            <option value="없음">거의 없음</option>
-            <option value="소액">10만 원 이하</option>
-            <option value="투자">장비/강의 등에 투자 가능</option>
-          </select>
-        </div>
+    <section class="section" id="checklist" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">시작 전 체크리스트</h2>
+      <div class="grid two-col">
+        <article class="article-card">
+          <h3>첫 30일 실행 계획</h3>
+          <ol>
+            <li>하루에 실제로 쓸 수 있는 시간을 1주일 동안 기록합니다.</li>
+            <li>무료로 만들 수 있는 최소 결과물을 하나 정합니다.</li>
+            <li>관련 커뮤니티나 플랫폼에서 수요를 확인합니다.</li>
+            <li>첫 판매 또는 첫 포트폴리오를 목표로 작업합니다.</li>
+            <li>시간 대비 수익과 피로도를 기록해 계속할지 판단합니다.</li>
+          </ol>
+        </article>
+        <article class="article-card">
+          <h3>피해야 할 신호</h3>
+          <ul>
+            <li>초기 가입비나 교육비를 먼저 요구하는 경우</li>
+            <li>수익을 보장하거나 단기간 고수익만 강조하는 경우</li>
+            <li>업무 내용보다 사람 모집을 더 강조하는 경우</li>
+            <li>계약, 정산 기준, 저작권 범위가 불명확한 경우</li>
+          </ul>
+        </article>
+      </div>
+      <div class="notice">
+        <h3>수익 관련 안내</h3>
+        <p>이 사이트의 추천은 일반적인 정보 제공을 위한 것이며 특정 수익을 보장하지 않습니다. 실제 결과는 개인의 경험, 시간, 시장 수요, 플랫폼 정책에 따라 달라질 수 있습니다.</p>
+      </div>
+    </section>
 
-        <div class="form-group">
-          <label for="workStyle">6. 선호하는 업무 방식은?</label>
-          <select id="workStyle">
-            <option value="혼자">혼자 조용히 작업</option>
-            <option value="소통">고객/커뮤니티와 소통</option>
-            <option value="제작">콘텐츠나 상품 제작</option>
-            <option value="반복">정해진 일을 반복 수행</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="speed">7. 수익이 나기까지 기다릴 수 있는 기간은?</label>
-          <select id="speed">
-            <option value="빠름">가능하면 빠르게</option>
-            <option value="보통">1~3개월 정도</option>
-            <option value="장기">6개월 이상도 가능</option>
-          </select>
-        </div>
-
-        <button type="button" id="recommendButton">결과 확인하기</button>
-
-        <div class="results" id="resultContainer" aria-live="polite"></div>
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title">자주 묻는 질문</h2>
+      <div class="grid two-col">
+        <article class="article-card">
+          <h3>부업은 꼭 돈을 들여야 시작할 수 있나요?</h3>
+          <p>아닙니다. 글쓰기, 상품 등록, 데이터 라벨링, 간단한 템플릿 제작은 무료 도구로도 시작할 수 있습니다. 다만 시간을 줄이거나 품질을 높이기 위해 나중에 도구 비용이 생길 수 있습니다.</p>
+        </article>
+        <article class="article-card">
+          <h3>본업이 있는데 어떤 부업이 가장 안전한가요?</h3>
+          <p>근무 시간과 이해상충 문제가 없는지 먼저 확인해야 합니다. 회사의 겸업 규정이 있다면 반드시 확인하고, 본업 자료나 고객 정보를 부업에 사용해서는 안 됩니다.</p>
+        </article>
+        <article class="article-card">
+          <h3>블로그 수익화는 얼마나 걸리나요?</h3>
+          <p>주제와 글 품질, 검색 수요에 따라 차이가 큽니다. 보통은 몇 주 안에 큰 수익을 기대하기보다 3~6개월 이상 꾸준히 콘텐츠를 쌓는 관점이 현실적입니다.</p>
+        </article>
+        <article class="article-card">
+          <h3>추천 결과는 어떻게 계산되나요?</h3>
+          <p>선택한 7개 답변과 각 부업의 적합 조건을 비교해 점수를 계산합니다. 점수가 높은 순서로 최대 3개를 보여주며, 이는 선택을 돕기 위한 참고 기준입니다.</p>
+        </article>
       </div>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <p>© 2026 부업 맞춤 가이드. 본 사이트는 부업 선택을 돕는 정보성 사이트이며, 특정 수익이나 채용을 보장하지 않습니다.</p>
+    <div class="footer-links">
+      <a href="about.html">사이트 소개</a>
+      <a href="privacy.html">개인정보처리방침</a>
+      <a href="contact.html">문의</a>
+      <a href="ads.txt">ads.txt</a>
+    </div>
+  </footer>
 
   <script>
     const sideHustles = [
@@ -259,8 +601,9 @@
         budget: ["없음", "소액"],
         workStyle: ["혼자", "제작"],
         speed: ["보통", "장기"],
-        title: "전문 분야 네이버 블로그 / 티스토리 운영",
-        desc: "퇴근 후 본인의 직무 지식이나 취미를 글로 풀어내어 애드포스트 및 애드센스 수익을 창출합니다."
+        title: "전문 분야 블로그 / 티스토리 운영",
+        desc: "직무 지식이나 생활 경험을 검색자가 이해하기 쉬운 글로 정리해 장기적으로 광고와 제휴 수익을 노릴 수 있습니다.",
+        firstStep: "먼저 같은 주제의 질문 20개를 모으고, 직접 경험을 담은 글 3개를 작성해 보세요."
       },
       {
         type: ["직장인"],
@@ -270,8 +613,9 @@
         budget: ["없음", "소액"],
         workStyle: ["소통", "제작"],
         speed: ["보통"],
-        title: "크몽 / 숨고 직무 컨설팅 및 전자책 출판",
-        desc: "본업의 노하우(이력서 작성, 엑셀 활용법 등)를 문서화하여 주말에 컨설팅하거나 전자책으로 판매합니다."
+        title: "직무 컨설팅 및 전자책 출판",
+        desc: "이력서, 면접, 엑셀, 업무 자동화처럼 본업에서 익힌 노하우를 문제 해결형 자료나 상담 상품으로 만들 수 있습니다.",
+        firstStep: "가장 자주 받는 질문 10개를 목차로 정리하고 5쪽 분량의 샘플 자료를 만들어 보세요."
       },
       {
         type: ["육아맘", "직장인"],
@@ -281,8 +625,9 @@
         budget: ["소액", "투자"],
         workStyle: ["제작", "혼자"],
         speed: ["보통", "장기"],
-        title: "아이패드 드로잉 (이모티콘 & 굿노트 서식)",
-        desc: "아이가 낮잠 자는 시간을 활용해 템플릿이나 캐릭터를 그리고 엣시(Etsy)나 카카오에 제안합니다."
+        title: "디지털 드로잉 / 굿노트 서식",
+        desc: "캐릭터, 플래너, 학습지, 체크리스트처럼 반복 사용 가능한 디지털 상품을 제작해 판매하는 방식입니다.",
+        firstStep: "무료 샘플 1개와 유료 상품 1개를 작게 만들어 사용자의 반응을 비교해 보세요."
       },
       {
         type: ["육아맘", "직장인"],
@@ -293,7 +638,8 @@
         workStyle: ["반복", "혼자"],
         speed: ["빠름"],
         title: "데이터 라벨링 & 앱테크",
-        desc: "크라우드웍스 등에서 모바일로 짧은 시간에 할 수 있는 사진 촬영, 음성 녹음 등의 작업을 수행합니다."
+        desc: "짧은 시간에 수행 가능한 작업으로 시작 장벽이 낮습니다. 다만 단가가 낮을 수 있어 목표 수익을 보수적으로 잡아야 합니다.",
+        firstStep: "검증된 플랫폼에서 1시간 동안 실제 작업해 보고 시간당 수익과 피로도를 기록하세요."
       },
       {
         type: ["육아맘"],
@@ -303,8 +649,9 @@
         budget: ["없음", "소액"],
         workStyle: ["소통", "제작"],
         speed: ["보통"],
-        title: "육아/생활 정보 맘카페 제휴 마케터",
-        desc: "직접 사용해 본 육아용품을 리뷰하며 쿠팡 파트너스 등의 제휴 링크를 통해 수익을 얻습니다."
+        title: "육아/생활 정보 제휴 콘텐츠",
+        desc: "직접 사용해 본 제품이나 생활 노하우를 리뷰 콘텐츠로 정리하고 제휴 링크를 활용하는 방식입니다.",
+        firstStep: "실제로 사용한 제품 3개를 장단점, 가격대, 사용 상황 중심으로 기록해 보세요."
       },
       {
         type: ["직장인", "육아맘"],
@@ -315,7 +662,8 @@
         workStyle: ["제작", "혼자"],
         speed: ["보통"],
         title: "캔바 템플릿 제작 및 판매",
-        desc: "SNS 카드뉴스, 발표 자료, 체크리스트 템플릿을 만들어 크몽, 탈잉, 엣시 등에서 디지털 상품으로 판매합니다."
+        desc: "SNS 카드뉴스, 발표 자료, 체크리스트 템플릿을 만들어 디지털 상품으로 판매할 수 있습니다.",
+        firstStep: "특정 직업이나 상황을 정해 바로 쓸 수 있는 템플릿 5장을 만들어 보세요."
       },
       {
         type: ["직장인"],
@@ -326,7 +674,8 @@
         workStyle: ["소통"],
         speed: ["장기", "보통"],
         title: "온라인 강의 / 라이브 클래스",
-        desc: "직무 경험이나 실무 스킬을 커리큘럼으로 정리해 클래스 플랫폼, Zoom 강의, 사내 교육 형태로 확장합니다."
+        desc: "실무 경험을 커리큘럼으로 정리해 클래스 플랫폼, Zoom 강의, 사내 교육 형태로 확장할 수 있습니다.",
+        firstStep: "60분짜리 무료 미니 강의를 설계하고 수강자가 얻을 결과를 한 문장으로 정리하세요."
       },
       {
         type: ["육아맘", "직장인"],
@@ -337,26 +686,31 @@
         workStyle: ["반복", "혼자"],
         speed: ["빠름", "보통"],
         title: "쇼핑몰 상품 등록 / 상세페이지 보조",
-        desc: "스마트스토어 판매자의 상품명 정리, 이미지 업로드, 옵션 입력 같은 반복 업무를 재택으로 수행합니다."
+        desc: "상품명 정리, 이미지 업로드, 옵션 입력처럼 온라인 판매자가 반복적으로 맡기는 업무를 재택으로 수행하는 방식입니다.",
+        firstStep: "상품 3개를 골라 제목, 핵심 키워드, 상세 설명을 정리한 샘플 포트폴리오를 만드세요."
       }
     ];
 
     const resultContainer = document.querySelector("#resultContainer");
     const recommendButton = document.querySelector("#recommendButton");
 
-    function createResultCard(title, desc) {
+    function createResultCard(match) {
       const card = document.createElement("article");
       card.className = "result-card";
 
       const heading = document.createElement("div");
       heading.className = "result-title";
-      heading.textContent = title;
+      heading.textContent = `추천 ${match.rank}. ${match.title}`;
 
       const description = document.createElement("div");
       description.className = "result-desc";
-      description.textContent = desc;
+      description.textContent = match.desc;
 
-      card.append(heading, description);
+      const meta = document.createElement("div");
+      meta.className = "result-meta";
+      meta.textContent = `적합도: 7개 중 ${match.score}개 조건 일치 · 첫 단계: ${match.firstStep}`;
+
+      card.append(heading, description, meta);
       return card;
     }
 
@@ -381,21 +735,22 @@
         })
         .filter((item) => item.score >= 3)
         .sort((a, b) => b.score - a.score)
-        .slice(0, 3);
+        .slice(0, 3)
+        .map((item, index) => ({ ...item, rank: index + 1 }));
 
       resultContainer.replaceChildren();
 
       if (matches.length > 0) {
         matches.forEach((match) => {
-          resultContainer.append(createResultCard(`💡 ${match.title}`, `${match.desc} 선택 조건과 ${match.score}개 항목이 맞습니다.`));
+          resultContainer.append(createResultCard(match));
         });
         return;
       }
 
-      resultContainer.append(createResultCard(
-        "🔍 조금 더 유연한 조건이 필요해요!",
-        "선택하신 조합에 딱 맞는 부업을 찾고 있습니다. 조건을 조금 변경해 보시거나, 가장 인기 있는 '블로그 수익화'부터 시작해 보는 것은 어떨까요?"
-      ));
+      const fallback = document.createElement("article");
+      fallback.className = "result-card";
+      fallback.textContent = "선택 조건을 조금 넓혀보세요. 처음에는 초기 비용이 낮고 시간을 작게 나눌 수 있는 블로그, 상품 등록, 데이터 라벨링부터 비교해 보는 것이 좋습니다.";
+      resultContainer.append(fallback);
     }
 
     recommendButton.addEventListener("click", recommendHustle);

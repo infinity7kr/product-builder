@@ -112,7 +112,10 @@
       align-content: center;
       gap: 18px;
       padding: 42px;
-      background: linear-gradient(135deg, rgba(47, 143, 70, 0.14), rgba(236, 248, 238, 0.82));
+      min-height: 540px;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.72) 58%, rgba(255, 255, 255, 0.2)),
+        url("assets/hero-side-hustle-workspace.png") center / cover;
     }
 
     .eyebrow {
@@ -286,6 +289,25 @@
       gap: 10px;
       padding: 22px;
       box-shadow: none;
+    }
+
+    .article-card.has-image {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .card-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .card-body {
+      display: grid;
+      gap: 10px;
+      padding: 22px;
     }
 
     .article-card ul,
@@ -494,37 +516,49 @@
     <section class="section" aria-labelledby="types-title">
       <h2 id="types-title">추천 부업 유형별 현실 가이드</h2>
       <div class="grid two-col">
-        <article class="article-card">
-          <h3>블로그 / 티스토리 운영</h3>
-          <p>직무 경험, 생활 노하우, 육아 기록처럼 꾸준히 쓸 수 있는 주제가 있을 때 적합합니다. 광고 수익은 시간이 걸리므로 처음 3개월은 글의 양보다 검색자가 실제로 궁금해하는 질문에 답하는 데 집중하는 것이 좋습니다.</p>
-          <ul>
-            <li>첫 단계: 주제 1개를 정하고 글 제목 20개 작성</li>
-            <li>주의점: 다른 글을 짜깁기하지 말고 직접 경험을 넣기</li>
-          </ul>
+        <article class="article-card has-image">
+          <img class="card-image" src="assets/writing-consulting-workspace.png" alt="노트북과 노트, 마이크가 놓인 지식 공유 부업 작업 공간" loading="lazy" width="1448" height="1086">
+          <div class="card-body">
+            <h3>블로그 / 티스토리 운영</h3>
+            <p>직무 경험, 생활 노하우, 육아 기록처럼 꾸준히 쓸 수 있는 주제가 있을 때 적합합니다. 광고 수익은 시간이 걸리므로 처음 3개월은 글의 양보다 검색자가 실제로 궁금해하는 질문에 답하는 데 집중하는 것이 좋습니다.</p>
+            <ul>
+              <li>첫 단계: 주제 1개를 정하고 글 제목 20개 작성</li>
+              <li>주의점: 다른 글을 짜깁기하지 말고 직접 경험을 넣기</li>
+            </ul>
+          </div>
         </article>
-        <article class="article-card">
-          <h3>전자책 / 직무 컨설팅</h3>
-          <p>이력서, 엑셀, 업무 자동화, 면접 준비처럼 명확한 문제를 해결해 줄 수 있는 사람에게 맞습니다. 완벽한 책보다 특정 문제 하나를 해결하는 짧은 자료가 첫 판매에 더 유리할 수 있습니다.</p>
-          <ul>
-            <li>첫 단계: 자주 받는 질문 10개를 목차로 정리</li>
-            <li>주의점: 수익 보장처럼 오해될 표현은 피하기</li>
-          </ul>
+        <article class="article-card has-image">
+          <img class="card-image" src="assets/writing-consulting-workspace.png" alt="온라인 상담과 강의 준비를 위한 노트북 작업 책상" loading="lazy" width="1448" height="1086">
+          <div class="card-body">
+            <h3>전자책 / 직무 컨설팅</h3>
+            <p>이력서, 엑셀, 업무 자동화, 면접 준비처럼 명확한 문제를 해결해 줄 수 있는 사람에게 맞습니다. 완벽한 책보다 특정 문제 하나를 해결하는 짧은 자료가 첫 판매에 더 유리할 수 있습니다.</p>
+            <ul>
+              <li>첫 단계: 자주 받는 질문 10개를 목차로 정리</li>
+              <li>주의점: 수익 보장처럼 오해될 표현은 피하기</li>
+            </ul>
+          </div>
         </article>
-        <article class="article-card">
-          <h3>디지털 템플릿 제작</h3>
-          <p>캔바, 굿노트, 노션, 발표 자료처럼 반복해서 쓰이는 양식을 만드는 부업입니다. 디자인 감각뿐 아니라 구매자가 시간을 절약할 수 있는 구조를 제공하는 것이 중요합니다.</p>
-          <ul>
-            <li>첫 단계: 무료 템플릿 3개를 만들어 반응 확인</li>
-            <li>주의점: 폰트와 이미지의 상업적 사용 가능 여부 확인</li>
-          </ul>
+        <article class="article-card has-image">
+          <img class="card-image" src="assets/digital-template-workspace.png" alt="태블릿과 스타일러스가 놓인 디지털 템플릿 제작 작업 공간" loading="lazy" width="1448" height="1086">
+          <div class="card-body">
+            <h3>디지털 템플릿 제작</h3>
+            <p>캔바, 굿노트, 노션, 발표 자료처럼 반복해서 쓰이는 양식을 만드는 부업입니다. 디자인 감각뿐 아니라 구매자가 시간을 절약할 수 있는 구조를 제공하는 것이 중요합니다.</p>
+            <ul>
+              <li>첫 단계: 무료 템플릿 3개를 만들어 반응 확인</li>
+              <li>주의점: 폰트와 이미지의 상업적 사용 가능 여부 확인</li>
+            </ul>
+          </div>
         </article>
-        <article class="article-card">
-          <h3>데이터 라벨링 / 상품 등록</h3>
-          <p>빠르게 시작할 수 있지만 단가가 낮을 수 있어 목표 수익을 현실적으로 잡아야 합니다. 초반에는 작업 방식에 익숙해지고, 이후에는 상세페이지 보조나 운영 대행처럼 더 높은 단가의 업무로 넓히는 전략이 필요합니다.</p>
-          <ul>
-            <li>첫 단계: 검증된 플랫폼에서 소액 작업부터 시작</li>
-            <li>주의점: 선입금이나 과도한 개인정보 요구를 조심</li>
-          </ul>
+        <article class="article-card has-image">
+          <img class="card-image" src="assets/online-task-workspace.png" alt="노트북과 체크리스트가 놓인 온라인 반복 업무 작업 공간" loading="lazy" width="1448" height="1086">
+          <div class="card-body">
+            <h3>데이터 라벨링 / 상품 등록</h3>
+            <p>빠르게 시작할 수 있지만 단가가 낮을 수 있어 목표 수익을 현실적으로 잡아야 합니다. 초반에는 작업 방식에 익숙해지고, 이후에는 상세페이지 보조나 운영 대행처럼 더 높은 단가의 업무로 넓히는 전략이 필요합니다.</p>
+            <ul>
+              <li>첫 단계: 검증된 플랫폼에서 소액 작업부터 시작</li>
+              <li>주의점: 선입금이나 과도한 개인정보 요구를 조심</li>
+            </ul>
+          </div>
         </article>
       </div>
     </section>

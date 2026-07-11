@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 
+# 공개 검색 및 생성형 검색 서비스가 사이트 정보를 발견할 수 있도록 허용합니다.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 Sitemap: https://infinity7kr.github.io/product-builder/sitemap.xml

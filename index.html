@@ -397,6 +397,13 @@
 
     .review-note { margin-top: 18px; color: var(--muted); font-size: 0.9rem; }
 
+    .share-panel { display: grid; gap: 14px; padding: 24px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+    .share-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+    .share-button { width: auto; min-height: 44px; padding: 0 16px; color: #203126; background: #f1f7f2; border: 1px solid #b9d5c0; }
+    .share-button:hover { color: #ffffff; background: var(--primary-dark); }
+    .share-button.primary { color: #ffffff; background: var(--primary); border-color: var(--primary); }
+    .share-status { min-height: 1.5em; color: var(--primary-dark); font-weight: 700; }
+
     .tag {
       width: fit-content;
       padding: 5px 9px;
@@ -724,6 +731,21 @@
         </article>
       </div>
     </section>
+
+    <section class="section" aria-labelledby="share-title">
+      <div class="share-panel">
+        <h2 id="share-title">이 부업 가이드를 공유해 보세요</h2>
+        <p class="section-intro">부업을 함께 고민하는 직장인이나 육아맘에게 현실적인 비교 기준을 알려주세요.</p>
+        <div class="share-buttons" aria-label="SNS 공유 메뉴">
+          <button class="share-button primary" type="button" id="nativeShareButton" hidden>카카오톡 등으로 공유</button>
+          <button class="share-button" type="button" data-share="naver">네이버 블로그</button>
+          <button class="share-button" type="button" data-share="facebook">Facebook</button>
+          <button class="share-button" type="button" data-share="x">X</button>
+          <button class="share-button" type="button" id="copyLinkButton">링크 복사</button>
+        </div>
+        <p class="share-status" id="shareStatus" role="status" aria-live="polite"></p>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -838,6 +860,58 @@
 
     const resultContainer = document.querySelector("#resultContainer");
     const recommendButton = document.querySelector("#recommendButton");
+    const shareUrl = "https://infinity7kr.github.io/product-builder/";
+    const shareTitle = "직장인·육아맘 재택 부업 추천 | 부업 맞춤 가이드";
+    const shareStatus = document.querySelector("#shareStatus");
+    const nativeShareButton = document.querySelector("#nativeShareButton");
+    const copyLinkButton = document.querySelector("#copyLinkButton");
+
+    const shareTargets = {
+      naver: `https://share.naver.com/web/shareView?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareTitle)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+      x: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`
+    };
+
+    function openShareWindow(url) {
+      const popup = window.open(url, "shareWindow", "width=720,height=640,noopener,noreferrer");
+      if (popup) popup.opener = null;
+    }
+
+    async function copyShareLink() {
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        shareStatus.textContent = "링크를 복사했습니다.";
+      } catch {
+        const input = document.createElement("textarea");
+        input.value = shareUrl;
+        input.setAttribute("readonly", "");
+        input.style.position = "fixed";
+        input.style.opacity = "0";
+        document.body.append(input);
+        input.select();
+        const copied = document.execCommand("copy");
+        input.remove();
+        shareStatus.textContent = copied ? "링크를 복사했습니다." : `링크: ${shareUrl}`;
+      }
+    }
+
+    if (navigator.share) {
+      nativeShareButton.hidden = false;
+      nativeShareButton.addEventListener("click", async () => {
+        try {
+          await navigator.share({ title: shareTitle, text: "시간과 상황에 맞는 현실적인 재택 부업을 비교해 보세요.", url: shareUrl });
+          shareStatus.textContent = "공유했습니다.";
+        } catch (error) {
+          if (error.name !== "AbortError") shareStatus.textContent = "공유하지 못했습니다. 링크 복사를 이용해 주세요.";
+        }
+      });
+    }
+
+    document.querySelectorAll("[data-share]").forEach((button) => {
+      button.addEventListener("click", () => openShareWindow(shareTargets[button.dataset.share]));
+    });
+
+    copyLinkButton.addEventListener("click", copyShareLink);
 
     function createResultCard(match) {
       const card = document.createElement("article");
